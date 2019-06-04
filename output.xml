@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot rpa="false" generated="20190604 09:38:13.421" generator="Robot 3.1.2 (Python 2.7.15rc1 on linux2)">
+<suite source="/home/ssk/PycharmProjects/openweather/daily_forecast.robot" id="s1" name="Daily Forecast">
+<test id="s1-t1" name="TC_01_Clouds">
+<kw name="Create Session" library="RequestsLibrary">
+<doc>Create Session: create a HTTP session to a server</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>${BASE_URL}</arg>
+</arguments>
+<msg timestamp="20190604 09:38:13.647" level="INFO">Creating Session using : alias=Get_Weather, url=http://api.openweathermap.org, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190604 09:38:13.648" starttime="20190604 09:38:13.646"></status>
+</kw>
+<kw name="TRUE">
+<assign>
+<var>${passed}=</var>
+</assign>
+<msg timestamp="20190604 09:38:13.652" level="FAIL">No keyword with name 'TRUE' found.</msg>
+<status status="FAIL" endtime="20190604 09:38:13.652" starttime="20190604 09:38:13.652"></status>
+</kw>
+<status status="FAIL" endtime="20190604 09:38:13.652" critical="yes" starttime="20190604 09:38:13.645">No keyword with name 'TRUE' found.</status>
+</test>
+<doc>16 Day/daily Forecast Testcases</doc>
+<status status="FAIL" endtime="20190604 09:38:13.653" starttime="20190604 09:38:13.423"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="1" pass="0">Critical Tests</stat>
+<stat fail="1" pass="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="1" id="s1" name="Daily Forecast" pass="0">Daily Forecast</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
