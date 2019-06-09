@@ -1,37 +1,2523 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<robot rpa="false" generated="20190604 09:38:13.421" generator="Robot 3.1.2 (Python 2.7.15rc1 on linux2)">
-<suite source="/home/ssk/PycharmProjects/openweather/daily_forecast.robot" id="s1" name="Daily Forecast">
-<test id="s1-t1" name="TC_01_Clouds">
-<kw name="Create Session" library="RequestsLibrary">
+<robot rpa="false" generated="20190609 22:17:00.718" generator="Robot 3.1.2 (Python 2.7.15rc1 on linux2)">
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather" id="s1" name="Current Weather">
+<kw type="setup" name="Create Session" library="RequestsLibrary">
 <doc>Create Session: create a HTTP session to a server</doc>
 <arguments>
 <arg>Get_Weather</arg>
 <arg>${BASE_URL}</arg>
 </arguments>
-<msg timestamp="20190604 09:38:13.647" level="INFO">Creating Session using : alias=Get_Weather, url=http://api.openweathermap.org, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
-<status status="PASS" endtime="20190604 09:38:13.648" starttime="20190604 09:38:13.646"></status>
+<msg timestamp="20190609 22:17:00.941" level="INFO">Creating Session using : alias=Get_Weather, url=http://api.openweathermap.org, headers={},                     cookies=None, auth=None, timeout=None, proxies=None, verify=False,                     debug=0 </msg>
+<status status="PASS" endtime="20190609 22:17:00.942" starttime="20190609 22:17:00.941"></status>
 </kw>
-<kw name="TRUE">
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather/TC_01_Temperature_check.robot" id="s1-s1" name="TC 01 Temperature check">
+<test id="s1-s1-t1" name="TC_01_Temperature">
+<kw type="for" name="${city} IN [ @{CITIES} ]">
+<kw type="foritem" name="${city} = London">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}&amp;units=metric</arg>
+</arguments>
 <assign>
-<var>${passed}=</var>
+<var>${response}</var>
 </assign>
-<msg timestamp="20190604 09:38:13.652" level="FAIL">No keyword with name 'TRUE' found.</msg>
-<status status="FAIL" endtime="20190604 09:38:13.652" starttime="20190604 09:38:13.652"></status>
+<msg timestamp="20190609 22:17:01.053" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=London&amp;appid=ea574594b9d36ab688642d5fbeab847e&amp;units=metric, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.053" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.053" starttime="20190609 22:17:00.949"></status>
 </kw>
-<status status="FAIL" endtime="20190604 09:38:13.652" critical="yes" starttime="20190604 09:38:13.645">No keyword with name 'TRUE' found.</status>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.055" level="INFO">${main} = {u'pressure': 1019, u'temp_min': 12.78, u'temp_max': 17.22, u'temp': 15.17, u'humidity': 62}</msg>
+<status status="PASS" endtime="20190609 22:17:01.055" starttime="20190609 22:17:01.054"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.056" level="INFO">${dict} = {u'pressure': 1019, u'humidity': 62, u'temp_max': 17.22, u'temp': 15.17, u'temp_min': 12.78}</msg>
+<status status="PASS" endtime="20190609 22:17:01.056" starttime="20190609 22:17:01.055"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>temp</arg>
+</arguments>
+<assign>
+<var>${temp}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.057" level="INFO">${temp} = 15.17</msg>
+<status status="PASS" endtime="20190609 22:17:01.057" starttime="20190609 22:17:01.056"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>${temp}&gt;25</arg>
+<arg>City - ${city}. Temperature - ${temp}</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.058" starttime="20190609 22:17:01.057"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.058" starttime="20190609 22:17:00.948"></status>
+</kw>
+<kw type="foritem" name="${city} = Moscow">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}&amp;units=metric</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.111" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Moscow&amp;appid=ea574594b9d36ab688642d5fbeab847e&amp;units=metric, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.111" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.112" starttime="20190609 22:17:01.058"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.113" level="INFO">${main} = {u'pressure': 1021, u'temp_min': 23, u'temp_max': 26.11, u'temp': 24.34, u'humidity': 53}</msg>
+<status status="PASS" endtime="20190609 22:17:01.113" starttime="20190609 22:17:01.112"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.115" level="INFO">${dict} = {u'pressure': 1021, u'humidity': 53, u'temp_max': 26.11, u'temp': 24.34, u'temp_min': 23}</msg>
+<status status="PASS" endtime="20190609 22:17:01.115" starttime="20190609 22:17:01.114"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>temp</arg>
+</arguments>
+<assign>
+<var>${temp}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.116" level="INFO">${temp} = 24.34</msg>
+<status status="PASS" endtime="20190609 22:17:01.116" starttime="20190609 22:17:01.115"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>${temp}&gt;25</arg>
+<arg>City - ${city}. Temperature - ${temp}</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.118" starttime="20190609 22:17:01.117"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.118" starttime="20190609 22:17:01.058"></status>
+</kw>
+<kw type="foritem" name="${city} = Baku">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}&amp;units=metric</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.296" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Baku&amp;appid=ea574594b9d36ab688642d5fbeab847e&amp;units=metric, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.297" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.297" starttime="20190609 22:17:01.119"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.300" level="INFO">${main} = {u'pressure': 1018, u'temp_min': 21, u'temp_max': 21, u'temp': 21, u'humidity': 88}</msg>
+<status status="PASS" endtime="20190609 22:17:01.300" starttime="20190609 22:17:01.298"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.302" level="INFO">${dict} = {u'pressure': 1018, u'humidity': 88, u'temp_max': 21, u'temp': 21, u'temp_min': 21}</msg>
+<status status="PASS" endtime="20190609 22:17:01.302" starttime="20190609 22:17:01.300"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>temp</arg>
+</arguments>
+<assign>
+<var>${temp}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.304" level="INFO">${temp} = 21</msg>
+<status status="PASS" endtime="20190609 22:17:01.304" starttime="20190609 22:17:01.302"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>${temp}&gt;25</arg>
+<arg>City - ${city}. Temperature - ${temp}</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.305" starttime="20190609 22:17:01.304"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.306" starttime="20190609 22:17:01.118"></status>
+</kw>
+<kw type="foritem" name="${city} = Yerevan">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}&amp;units=metric</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.439" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Yerevan&amp;appid=ea574594b9d36ab688642d5fbeab847e&amp;units=metric, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.439" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.440" starttime="20190609 22:17:01.306"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.441" level="INFO">${main} = {u'pressure': 1016, u'temp_min': 26, u'temp_max': 26, u'temp': 26, u'humidity': 31}</msg>
+<status status="PASS" endtime="20190609 22:17:01.441" starttime="20190609 22:17:01.440"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.442" level="INFO">${dict} = {u'pressure': 1016, u'humidity': 31, u'temp_max': 26, u'temp': 26, u'temp_min': 26}</msg>
+<status status="PASS" endtime="20190609 22:17:01.442" starttime="20190609 22:17:01.441"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>temp</arg>
+</arguments>
+<assign>
+<var>${temp}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.443" level="INFO">${temp} = 26</msg>
+<status status="PASS" endtime="20190609 22:17:01.443" starttime="20190609 22:17:01.442"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>${temp}&gt;25</arg>
+<arg>City - ${city}. Temperature - ${temp}</arg>
+</arguments>
+<msg timestamp="20190609 22:17:01.443" level="INFO">Execution passed with message:
+City - Yerevan. Temperature - 26</msg>
+<status status="PASS" endtime="20190609 22:17:01.444" starttime="20190609 22:17:01.443"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.444" starttime="20190609 22:17:01.306"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.444" starttime="20190609 22:17:00.948"></status>
+</kw>
+<timeout value="2 minutes"></timeout>
+<status status="PASS" endtime="20190609 22:17:01.444" critical="yes" starttime="20190609 22:17:00.947">City - Yerevan. Temperature - 26</status>
 </test>
-<doc>16 Day/daily Forecast Testcases</doc>
-<status status="FAIL" endtime="20190604 09:38:13.653" starttime="20190604 09:38:13.423"></status>
+<doc>Current temperature is above 25C</doc>
+<status status="PASS" endtime="20190609 22:17:01.445" starttime="20190609 22:17:00.942"></status>
+</suite>
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather/TC_02_Day_Length_check.robot" id="s1-s2" name="TC 02 Day Length check">
+<test id="s1-s2-t1" name="TC_02_Day_Length">
+<kw type="for" name="${city} IN [ @{CITIES} ]">
+<kw type="foritem" name="${city} = London">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.506" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=London&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.506" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.506" starttime="20190609 22:17:01.455"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>sys</arg>
+</arguments>
+<assign>
+<var>${sys}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.508" level="INFO">${sys} = {u'country': u'GB', u'sunset': 1560111308, u'message': 0.0092, u'type': 1, u'id': 1412, u'sunrise': 1560051870}</msg>
+<status status="PASS" endtime="20190609 22:17:01.508" starttime="20190609 22:17:01.507"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${sys}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.509" level="INFO">${dict} = {u'sunset': 1560111308, u'country': u'GB', u'message': 0.0092, u'type': 1, u'id': 1412, u'sunrise': 1560051870}</msg>
+<status status="PASS" endtime="20190609 22:17:01.509" starttime="20190609 22:17:01.508"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>sunrise</arg>
+</arguments>
+<assign>
+<var>${sunrise}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.510" level="INFO">${sunrise} = 1560051870</msg>
+<status status="PASS" endtime="20190609 22:17:01.511" starttime="20190609 22:17:01.510"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>sunset</arg>
+</arguments>
+<assign>
+<var>${sunset}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.512" level="INFO">${sunset} = 1560111308</msg>
+<status status="PASS" endtime="20190609 22:17:01.512" starttime="20190609 22:17:01.511"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>(${sunset}-${sunrise})/3600.0</arg>
+</arguments>
+<assign>
+<var>${day}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.513" level="INFO">${day} = 16.5105555556</msg>
+<status status="PASS" endtime="20190609 22:17:01.513" starttime="20190609 22:17:01.512"></status>
+</kw>
+<kw name="Convert To Number" library="BuiltIn">
+<doc>Converts the given item to a floating point number.</doc>
+<arguments>
+<arg>${day}</arg>
+<arg>2</arg>
+</arguments>
+<assign>
+<var>${day}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.515" level="INFO">${day} = 16.51</msg>
+<status status="PASS" endtime="20190609 22:17:01.515" starttime="20190609 22:17:01.514"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>${day}&gt;12</arg>
+<arg>City - ${city}. Day Length - ${day}</arg>
+</arguments>
+<msg timestamp="20190609 22:17:01.516" level="INFO">Execution passed with message:
+City - London. Day Length - 16.51</msg>
+<status status="PASS" endtime="20190609 22:17:01.516" starttime="20190609 22:17:01.515"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.516" starttime="20190609 22:17:01.454"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.516" starttime="20190609 22:17:01.454"></status>
+</kw>
+<timeout value="2 minutes"></timeout>
+<status status="PASS" endtime="20190609 22:17:01.517" critical="yes" starttime="20190609 22:17:01.453">City - London. Day Length - 16.51</status>
+</test>
+<doc>Day length is more than 12 hours</doc>
+<status status="PASS" endtime="20190609 22:17:01.518" starttime="20190609 22:17:01.447"></status>
+</suite>
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather/TC_03_Good_Conditions_check.robot" id="s1-s3" name="TC 03 Good Conditions check">
+<test id="s1-s3-t1" name="TC_03_Good_Conditions">
+<kw type="for" name="${city} IN [ @{CITIES} ]">
+<kw type="foritem" name="${city} = London">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.587" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=London&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.587" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.587" starttime="20190609 22:17:01.529"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>visibility</arg>
+</arguments>
+<assign>
+<var>${visibility}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.590" level="INFO">${visibility} = 10000</msg>
+<status status="PASS" endtime="20190609 22:17:01.590" starttime="20190609 22:17:01.588"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>wind</arg>
+</arguments>
+<assign>
+<var>${wind}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.592" level="INFO">${wind} = {u'speed': 3.6, u'deg': 210}</msg>
+<status status="PASS" endtime="20190609 22:17:01.592" starttime="20190609 22:17:01.590"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${wind}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.593" level="INFO">${dict} = {u'speed': 3.6, u'deg': 210}</msg>
+<status status="PASS" endtime="20190609 22:17:01.594" starttime="20190609 22:17:01.592"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>speed</arg>
+</arguments>
+<assign>
+<var>${speed}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.595" level="INFO">${speed} = 3.6</msg>
+<status status="PASS" endtime="20190609 22:17:01.595" starttime="20190609 22:17:01.594"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${visibility}&gt;300) &amp; (${speed}&lt;20)</arg>
+<arg>City - ${city}. Good Conditions.</arg>
+</arguments>
+<msg timestamp="20190609 22:17:01.597" level="INFO">Execution passed with message:
+City - London. Good Conditions.</msg>
+<status status="PASS" endtime="20190609 22:17:01.597" starttime="20190609 22:17:01.596"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.597" starttime="20190609 22:17:01.529"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.597" starttime="20190609 22:17:01.528"></status>
+</kw>
+<timeout value="2 minutes"></timeout>
+<status status="PASS" endtime="20190609 22:17:01.598" critical="yes" starttime="20190609 22:17:01.527">City - London. Good Conditions.</status>
+</test>
+<doc>Visibility is above 300m &amp; wind speed is less than 20m/s</doc>
+<status status="PASS" endtime="20190609 22:17:01.599" starttime="20190609 22:17:01.519"></status>
+</suite>
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather/TC_04_Snow_check.robot" id="s1-s4" name="TC 04 Snow check">
+<test id="s1-s4-t1" name="TC_04_Snow">
+<kw type="for" name="${city} IN [ @{CITIES} ]">
+<kw type="foritem" name="${city} = London">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.661" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=London&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.662" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.662" starttime="20190609 22:17:01.609"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.664" level="INFO">${weather} = [{u'main': u'Rain', u'id': 521, u'icon': u'09d', u'description': u'shower rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:01.664" starttime="20190609 22:17:01.662"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.665" level="INFO">${dict} = {u'description': u'shower rain', u'main': u'Rain', u'id': 521, u'icon': u'09d'}</msg>
+<status status="PASS" endtime="20190609 22:17:01.666" starttime="20190609 22:17:01.664"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.667" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:01.667" starttime="20190609 22:17:01.666"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.668" starttime="20190609 22:17:01.668"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.668" starttime="20190609 22:17:01.609"></status>
+</kw>
+<kw type="foritem" name="${city} = Moscow">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.736" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Moscow&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.736" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.736" starttime="20190609 22:17:01.669"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.738" level="INFO">${weather} = [{u'main': u'Clear', u'id': 800, u'icon': u'01n', u'description': u'clear sky'}]</msg>
+<status status="PASS" endtime="20190609 22:17:01.738" starttime="20190609 22:17:01.737"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.739" level="INFO">${dict} = {u'description': u'clear sky', u'main': u'Clear', u'id': 800, u'icon': u'01n'}</msg>
+<status status="PASS" endtime="20190609 22:17:01.739" starttime="20190609 22:17:01.738"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.740" level="INFO">${main} = Clear</msg>
+<status status="PASS" endtime="20190609 22:17:01.740" starttime="20190609 22:17:01.739"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.741" starttime="20190609 22:17:01.741"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.741" starttime="20190609 22:17:01.669"></status>
+</kw>
+<kw type="foritem" name="${city} = Baku">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.824" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Baku&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.825" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.825" starttime="20190609 22:17:01.742"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.827" level="INFO">${weather} = [{u'main': u'Clear', u'id': 800, u'icon': u'01n', u'description': u'clear sky'}]</msg>
+<status status="PASS" endtime="20190609 22:17:01.827" starttime="20190609 22:17:01.825"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.829" level="INFO">${dict} = {u'description': u'clear sky', u'main': u'Clear', u'id': 800, u'icon': u'01n'}</msg>
+<status status="PASS" endtime="20190609 22:17:01.829" starttime="20190609 22:17:01.828"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.831" level="INFO">${main} = Clear</msg>
+<status status="PASS" endtime="20190609 22:17:01.831" starttime="20190609 22:17:01.830"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.833" starttime="20190609 22:17:01.832"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.833" starttime="20190609 22:17:01.741"></status>
+</kw>
+<kw type="foritem" name="${city} = Yerevan">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.915" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Yerevan&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:01.916" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:01.916" starttime="20190609 22:17:01.834"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.919" level="INFO">${weather} = [{u'main': u'Rain', u'id': 500, u'icon': u'10n', u'description': u'light rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:01.919" starttime="20190609 22:17:01.917"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.921" level="INFO">${dict} = {u'description': u'light rain', u'main': u'Rain', u'id': 500, u'icon': u'10n'}</msg>
+<status status="PASS" endtime="20190609 22:17:01.921" starttime="20190609 22:17:01.919"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:01.922" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:01.922" starttime="20190609 22:17:01.921"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:01.923" starttime="20190609 22:17:01.923"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:01.923" starttime="20190609 22:17:01.833"></status>
+</kw>
+<kw type="foritem" name="${city} = Brussels">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.017" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Brussels&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.018" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.018" starttime="20190609 22:17:01.924"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.021" level="INFO">${weather} = [{u'main': u'Rain', u'id': 500, u'icon': u'10d', u'description': u'light rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.021" starttime="20190609 22:17:02.018"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.022" level="INFO">${dict} = {u'description': u'light rain', u'main': u'Rain', u'id': 500, u'icon': u'10d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.023" starttime="20190609 22:17:02.021"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.024" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:02.024" starttime="20190609 22:17:02.023"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.025" starttime="20190609 22:17:02.024"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.025" starttime="20190609 22:17:01.923"></status>
+</kw>
+<kw type="foritem" name="${city} = Budapest">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.107" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Budapest&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.108" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.108" starttime="20190609 22:17:02.026"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.111" level="INFO">${weather} = [{u'main': u'Clear', u'id': 800, u'icon': u'01n', u'description': u'clear sky'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.111" starttime="20190609 22:17:02.109"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.112" level="INFO">${dict} = {u'description': u'clear sky', u'main': u'Clear', u'id': 800, u'icon': u'01n'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.112" starttime="20190609 22:17:02.111"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.113" level="INFO">${main} = Clear</msg>
+<status status="PASS" endtime="20190609 22:17:02.113" starttime="20190609 22:17:02.112"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.115" starttime="20190609 22:17:02.114"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.115" starttime="20190609 22:17:02.025"></status>
+</kw>
+<kw type="foritem" name="${city} = Odessa">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.220" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Odessa&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.221" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.221" starttime="20190609 22:17:02.115"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.224" level="INFO">${weather} = [{u'main': u'Haze', u'id': 721, u'icon': u'50d', u'description': u'haze'}, {u'main': u'Dust', u'id': 761, u'icon': u'50d', u'description': u'dust'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.224" starttime="20190609 22:17:02.222"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.226" level="INFO">${dict} = {u'description': u'haze', u'main': u'Haze', u'id': 721, u'icon': u'50d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.226" starttime="20190609 22:17:02.224"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.228" level="INFO">${main} = Haze</msg>
+<status status="PASS" endtime="20190609 22:17:02.228" starttime="20190609 22:17:02.226"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.229" starttime="20190609 22:17:02.228"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.229" starttime="20190609 22:17:02.115"></status>
+</kw>
+<kw type="foritem" name="${city} = Osaka">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.326" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Osaka&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.327" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.327" starttime="20190609 22:17:02.230"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.330" level="INFO">${weather} = [{u'main': u'Clouds', u'id': 802, u'icon': u'03n', u'description': u'scattered clouds'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.330" starttime="20190609 22:17:02.328"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.332" level="INFO">${dict} = {u'description': u'scattered clouds', u'main': u'Clouds', u'id': 802, u'icon': u'03n'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.332" starttime="20190609 22:17:02.331"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.334" level="INFO">${main} = Clouds</msg>
+<status status="PASS" endtime="20190609 22:17:02.334" starttime="20190609 22:17:02.332"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.335" starttime="20190609 22:17:02.334"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.335" starttime="20190609 22:17:02.230"></status>
+</kw>
+<kw type="foritem" name="${city} = Ottawa">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.434" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Ottawa&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.435" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.435" starttime="20190609 22:17:02.336"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.436" level="INFO">${weather} = [{u'main': u'Clouds', u'id': 803, u'icon': u'04d', u'description': u'broken clouds'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.436" starttime="20190609 22:17:02.435"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.437" level="INFO">${dict} = {u'description': u'broken clouds', u'main': u'Clouds', u'id': 803, u'icon': u'04d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.438" starttime="20190609 22:17:02.437"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.439" level="INFO">${main} = Clouds</msg>
+<status status="PASS" endtime="20190609 22:17:02.439" starttime="20190609 22:17:02.438"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.439" starttime="20190609 22:17:02.439"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.440" starttime="20190609 22:17:02.336"></status>
+</kw>
+<kw type="foritem" name="${city} = Oslo">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.525" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Oslo&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.525" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.525" starttime="20190609 22:17:02.440"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.528" level="INFO">${weather} = [{u'main': u'Rain', u'id': 521, u'icon': u'09d', u'description': u'shower rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.528" starttime="20190609 22:17:02.526"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.530" level="INFO">${dict} = {u'description': u'shower rain', u'main': u'Rain', u'id': 521, u'icon': u'09d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.530" starttime="20190609 22:17:02.529"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.533" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:02.533" starttime="20190609 22:17:02.531"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.535" starttime="20190609 22:17:02.533"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.535" starttime="20190609 22:17:02.440"></status>
+</kw>
+<kw type="foritem" name="${city} = Potsdam">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.627" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Potsdam&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.627" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.627" starttime="20190609 22:17:02.535"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.628" level="INFO">${weather} = [{u'main': u'Clear', u'id': 800, u'icon': u'01d', u'description': u'clear sky'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.629" starttime="20190609 22:17:02.628"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.629" level="INFO">${dict} = {u'description': u'clear sky', u'main': u'Clear', u'id': 800, u'icon': u'01d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.629" starttime="20190609 22:17:02.629"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.630" level="INFO">${main} = Clear</msg>
+<status status="PASS" endtime="20190609 22:17:02.630" starttime="20190609 22:17:02.630"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.631" starttime="20190609 22:17:02.631"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.631" starttime="20190609 22:17:02.535"></status>
+</kw>
+<kw type="foritem" name="${city} = Sydney">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.687" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Sydney&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.687" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.687" starttime="20190609 22:17:02.632"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.690" level="INFO">${weather} = [{u'main': u'Clear', u'id': 800, u'icon': u'01n', u'description': u'clear sky'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.690" starttime="20190609 22:17:02.688"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.692" level="INFO">${dict} = {u'description': u'clear sky', u'main': u'Clear', u'id': 800, u'icon': u'01n'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.693" starttime="20190609 22:17:02.691"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.694" level="INFO">${main} = Clear</msg>
+<status status="PASS" endtime="20190609 22:17:02.695" starttime="20190609 22:17:02.693"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.696" starttime="20190609 22:17:02.695"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.696" starttime="20190609 22:17:02.632"></status>
+</kw>
+<kw type="foritem" name="${city} = Kugaaruk">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.797" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Kugaaruk&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.798" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.798" starttime="20190609 22:17:02.697"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.800" level="INFO">${weather} = [{u'main': u'Rain', u'id': 500, u'icon': u'10d', u'description': u'light rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.801" starttime="20190609 22:17:02.798"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.802" level="INFO">${dict} = {u'description': u'light rain', u'main': u'Rain', u'id': 500, u'icon': u'10d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.802" starttime="20190609 22:17:02.801"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.804" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:02.804" starttime="20190609 22:17:02.803"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.806" starttime="20190609 22:17:02.805"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.806" starttime="20190609 22:17:02.696"></status>
+</kw>
+<kw type="foritem" name="${city} = Plymouth">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.887" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Plymouth&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.887" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.887" starttime="20190609 22:17:02.807"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>weather</arg>
+</arguments>
+<assign>
+<var>${weather}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.890" level="INFO">${weather} = [{u'main': u'Rain', u'id': 521, u'icon': u'09d', u'description': u'shower rain'}]</msg>
+<status status="PASS" endtime="20190609 22:17:02.890" starttime="20190609 22:17:02.888"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${weather}[0]</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.892" level="INFO">${dict} = {u'description': u'shower rain', u'main': u'Rain', u'id': 521, u'icon': u'09d'}</msg>
+<status status="PASS" endtime="20190609 22:17:02.892" starttime="20190609 22:17:02.891"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.894" level="INFO">${main} = Rain</msg>
+<status status="PASS" endtime="20190609 22:17:02.894" starttime="20190609 22:17:02.893"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>'${main}'=='Snow'</arg>
+<arg>City - ${city}. Snow.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.895" starttime="20190609 22:17:02.894"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.895" starttime="20190609 22:17:02.806"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.895" starttime="20190609 22:17:01.608"></status>
+</kw>
+<kw name="Fail" library="BuiltIn">
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<arguments>
+<arg>"There are NO cities that meet the requirements"</arg>
+</arguments>
+<msg timestamp="20190609 22:17:02.896" level="FAIL">"There are NO cities that meet the requirements"</msg>
+<status status="FAIL" endtime="20190609 22:17:02.896" starttime="20190609 22:17:02.895"></status>
+</kw>
+<timeout value="2 minutes"></timeout>
+<status status="FAIL" endtime="20190609 22:17:02.896" critical="yes" starttime="20190609 22:17:01.607">"There are NO cities that meet the requirements"</status>
+</test>
+<doc>It's snowing now</doc>
+<status status="FAIL" endtime="20190609 22:17:02.897" starttime="20190609 22:17:01.600"></status>
+</suite>
+<suite source="/home/ssk/PycharmProjects/openweather/current_weather/TC_05_Humidity_and_Pressure_check.robot" id="s1-s5" name="TC 05 Humidity and Pressure check">
+<test id="s1-s5-t1" name="TC_05_Humidity_and_Pressure">
+<kw type="for" name="${city} IN [ @{CITIES} ]">
+<kw type="foritem" name="${city} = London">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.960" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=London&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:02.960" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:02.960" starttime="20190609 22:17:02.907"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.962" level="INFO">${main} = {u'pressure': 1019, u'temp_min': 285.93, u'temp_max': 290.37, u'temp': 288.24, u'humidity': 62}</msg>
+<status status="PASS" endtime="20190609 22:17:02.962" starttime="20190609 22:17:02.961"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.964" level="INFO">${dict} = {u'pressure': 1019, u'humidity': 62, u'temp_max': 290.37, u'temp': 288.24, u'temp_min': 285.93}</msg>
+<status status="PASS" endtime="20190609 22:17:02.964" starttime="20190609 22:17:02.963"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.966" level="INFO">${humidity} = 62</msg>
+<status status="PASS" endtime="20190609 22:17:02.966" starttime="20190609 22:17:02.965"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.967" level="INFO">${pressure} = 1019</msg>
+<status status="PASS" endtime="20190609 22:17:02.968" starttime="20190609 22:17:02.966"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:02.969" level="INFO">${pressure} = 764.314995436</msg>
+<status status="PASS" endtime="20190609 22:17:02.969" starttime="20190609 22:17:02.968"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:02.971" starttime="20190609 22:17:02.970"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:02.971" starttime="20190609 22:17:02.907"></status>
+</kw>
+<kw type="foritem" name="${city} = Moscow">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.030" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Moscow&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.030" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.030" starttime="20190609 22:17:02.972"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.031" level="INFO">${main} = {u'pressure': 1021, u'temp_min': 296.15, u'temp_max': 300.37, u'temp': 297.69, u'humidity': 53}</msg>
+<status status="PASS" endtime="20190609 22:17:03.031" starttime="20190609 22:17:03.030"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.032" level="INFO">${dict} = {u'pressure': 1021, u'humidity': 53, u'temp_max': 300.37, u'temp': 297.69, u'temp_min': 296.15}</msg>
+<status status="PASS" endtime="20190609 22:17:03.032" starttime="20190609 22:17:03.032"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.033" level="INFO">${humidity} = 53</msg>
+<status status="PASS" endtime="20190609 22:17:03.033" starttime="20190609 22:17:03.033"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.034" level="INFO">${pressure} = 1021</msg>
+<status status="PASS" endtime="20190609 22:17:03.034" starttime="20190609 22:17:03.033"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.035" level="INFO">${pressure} = 765.815123004</msg>
+<status status="PASS" endtime="20190609 22:17:03.035" starttime="20190609 22:17:03.034"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.036" starttime="20190609 22:17:03.035"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.036" starttime="20190609 22:17:02.971"></status>
+</kw>
+<kw type="foritem" name="${city} = Baku">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.087" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Baku&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.088" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.088" starttime="20190609 22:17:03.036"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.089" level="INFO">${main} = {u'pressure': 1018, u'temp_min': 294.15, u'temp_max': 294.15, u'temp': 294.15, u'humidity': 88}</msg>
+<status status="PASS" endtime="20190609 22:17:03.089" starttime="20190609 22:17:03.088"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.090" level="INFO">${dict} = {u'pressure': 1018, u'humidity': 88, u'temp_max': 294.15, u'temp': 294.15, u'temp_min': 294.15}</msg>
+<status status="PASS" endtime="20190609 22:17:03.090" starttime="20190609 22:17:03.089"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.091" level="INFO">${humidity} = 88</msg>
+<status status="PASS" endtime="20190609 22:17:03.091" starttime="20190609 22:17:03.091"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.092" level="INFO">${pressure} = 1018</msg>
+<status status="PASS" endtime="20190609 22:17:03.092" starttime="20190609 22:17:03.092"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.094" level="INFO">${pressure} = 763.564931653</msg>
+<status status="PASS" endtime="20190609 22:17:03.094" starttime="20190609 22:17:03.093"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.095" starttime="20190609 22:17:03.094"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.095" starttime="20190609 22:17:03.036"></status>
+</kw>
+<kw type="foritem" name="${city} = Yerevan">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.183" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Yerevan&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.183" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.184" starttime="20190609 22:17:03.096"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.185" level="INFO">${main} = {u'pressure': 1016, u'temp_min': 299.15, u'temp_max': 299.15, u'temp': 299.15, u'humidity': 31}</msg>
+<status status="PASS" endtime="20190609 22:17:03.185" starttime="20190609 22:17:03.184"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.187" level="INFO">${dict} = {u'pressure': 1016, u'humidity': 31, u'temp_max': 299.15, u'temp': 299.15, u'temp_min': 299.15}</msg>
+<status status="PASS" endtime="20190609 22:17:03.187" starttime="20190609 22:17:03.186"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.188" level="INFO">${humidity} = 31</msg>
+<status status="PASS" endtime="20190609 22:17:03.189" starttime="20190609 22:17:03.187"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.190" level="INFO">${pressure} = 1016</msg>
+<status status="PASS" endtime="20190609 22:17:03.190" starttime="20190609 22:17:03.189"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.192" level="INFO">${pressure} = 762.064804086</msg>
+<status status="PASS" endtime="20190609 22:17:03.192" starttime="20190609 22:17:03.191"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.193" starttime="20190609 22:17:03.192"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.194" starttime="20190609 22:17:03.095"></status>
+</kw>
+<kw type="foritem" name="${city} = Brussels">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.245" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Brussels&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.246" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.246" starttime="20190609 22:17:03.194"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.248" level="INFO">${main} = {u'pressure': 1019, u'temp_min': 287.59, u'temp_max': 290.93, u'temp': 289.46, u'humidity': 72}</msg>
+<status status="PASS" endtime="20190609 22:17:03.248" starttime="20190609 22:17:03.246"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.250" level="INFO">${dict} = {u'pressure': 1019, u'humidity': 72, u'temp_max': 290.93, u'temp': 289.46, u'temp_min': 287.59}</msg>
+<status status="PASS" endtime="20190609 22:17:03.250" starttime="20190609 22:17:03.249"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.251" level="INFO">${humidity} = 72</msg>
+<status status="PASS" endtime="20190609 22:17:03.251" starttime="20190609 22:17:03.250"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.253" level="INFO">${pressure} = 1019</msg>
+<status status="PASS" endtime="20190609 22:17:03.253" starttime="20190609 22:17:03.252"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.255" level="INFO">${pressure} = 764.314995436</msg>
+<status status="PASS" endtime="20190609 22:17:03.255" starttime="20190609 22:17:03.253"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.257" starttime="20190609 22:17:03.256"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.257" starttime="20190609 22:17:03.194"></status>
+</kw>
+<kw type="foritem" name="${city} = Budapest">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.307" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Budapest&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.307" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.307" starttime="20190609 22:17:03.258"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.308" level="INFO">${main} = {u'pressure': 1020, u'temp_min': 295.37, u'temp_max': 298.15, u'temp': 297.49, u'humidity': 73}</msg>
+<status status="PASS" endtime="20190609 22:17:03.308" starttime="20190609 22:17:03.307"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.309" level="INFO">${dict} = {u'pressure': 1020, u'humidity': 73, u'temp_max': 298.15, u'temp': 297.49, u'temp_min': 295.37}</msg>
+<status status="PASS" endtime="20190609 22:17:03.309" starttime="20190609 22:17:03.309"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.310" level="INFO">${humidity} = 73</msg>
+<status status="PASS" endtime="20190609 22:17:03.310" starttime="20190609 22:17:03.309"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.311" level="INFO">${pressure} = 1020</msg>
+<status status="PASS" endtime="20190609 22:17:03.311" starttime="20190609 22:17:03.310"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.312" level="INFO">${pressure} = 765.06505922</msg>
+<status status="PASS" endtime="20190609 22:17:03.312" starttime="20190609 22:17:03.311"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.313" starttime="20190609 22:17:03.312"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.313" starttime="20190609 22:17:03.257"></status>
+</kw>
+<kw type="foritem" name="${city} = Odessa">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.364" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Odessa&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.364" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.365" starttime="20190609 22:17:03.313"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.366" level="INFO">${main} = {u'pressure': 1018, u'temp_min': 300.15, u'temp_max': 306.48, u'temp': 303.23, u'humidity': 45}</msg>
+<status status="PASS" endtime="20190609 22:17:03.366" starttime="20190609 22:17:03.365"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.367" level="INFO">${dict} = {u'pressure': 1018, u'humidity': 45, u'temp_max': 306.48, u'temp': 303.23, u'temp_min': 300.15}</msg>
+<status status="PASS" endtime="20190609 22:17:03.367" starttime="20190609 22:17:03.366"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.367" level="INFO">${humidity} = 45</msg>
+<status status="PASS" endtime="20190609 22:17:03.368" starttime="20190609 22:17:03.367"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.368" level="INFO">${pressure} = 1018</msg>
+<status status="PASS" endtime="20190609 22:17:03.368" starttime="20190609 22:17:03.368"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.369" level="INFO">${pressure} = 763.564931653</msg>
+<status status="PASS" endtime="20190609 22:17:03.369" starttime="20190609 22:17:03.369"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.370" starttime="20190609 22:17:03.369"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.370" starttime="20190609 22:17:03.313"></status>
+</kw>
+<kw type="foritem" name="${city} = Osaka">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.419" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Osaka&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.420" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.420" starttime="20190609 22:17:03.370"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.424" level="INFO">${main} = {u'pressure': 995, u'temp_min': 288.71, u'temp_max': 293.71, u'temp': 292.06, u'humidity': 57}</msg>
+<status status="PASS" endtime="20190609 22:17:03.424" starttime="20190609 22:17:03.421"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.427" level="INFO">${dict} = {u'pressure': 995, u'humidity': 57, u'temp_max': 293.71, u'temp': 292.06, u'temp_min': 288.71}</msg>
+<status status="PASS" endtime="20190609 22:17:03.427" starttime="20190609 22:17:03.425"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.429" level="INFO">${humidity} = 57</msg>
+<status status="PASS" endtime="20190609 22:17:03.429" starttime="20190609 22:17:03.428"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.431" level="INFO">${pressure} = 995</msg>
+<status status="PASS" endtime="20190609 22:17:03.431" starttime="20190609 22:17:03.430"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.433" level="INFO">${pressure} = 746.313464631</msg>
+<status status="PASS" endtime="20190609 22:17:03.433" starttime="20190609 22:17:03.432"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.434" starttime="20190609 22:17:03.434"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.434" starttime="20190609 22:17:03.370"></status>
+</kw>
+<kw type="foritem" name="${city} = Ottawa">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.488" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Ottawa&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.489" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.489" starttime="20190609 22:17:03.435"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.491" level="INFO">${main} = {u'pressure': 1023, u'temp_min': 300.93, u'temp_max': 303.15, u'temp': 302.15, u'humidity': 25}</msg>
+<status status="PASS" endtime="20190609 22:17:03.491" starttime="20190609 22:17:03.489"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.493" level="INFO">${dict} = {u'pressure': 1023, u'humidity': 25, u'temp_max': 303.15, u'temp': 302.15, u'temp_min': 300.93}</msg>
+<status status="PASS" endtime="20190609 22:17:03.493" starttime="20190609 22:17:03.492"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.495" level="INFO">${humidity} = 25</msg>
+<status status="PASS" endtime="20190609 22:17:03.495" starttime="20190609 22:17:03.494"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.497" level="INFO">${pressure} = 1023</msg>
+<status status="PASS" endtime="20190609 22:17:03.497" starttime="20190609 22:17:03.496"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.499" level="INFO">${pressure} = 767.315250571</msg>
+<status status="PASS" endtime="20190609 22:17:03.499" starttime="20190609 22:17:03.498"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.501" starttime="20190609 22:17:03.500"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.501" starttime="20190609 22:17:03.434"></status>
+</kw>
+<kw type="foritem" name="${city} = Oslo">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.554" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Oslo&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.555" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.555" starttime="20190609 22:17:03.502"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.557" level="INFO">${main} = {u'pressure': 1016, u'temp_min': 284.82, u'temp_max': 288.71, u'temp': 286.81, u'humidity': 71}</msg>
+<status status="PASS" endtime="20190609 22:17:03.557" starttime="20190609 22:17:03.555"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.558" level="INFO">${dict} = {u'pressure': 1016, u'humidity': 71, u'temp_max': 288.71, u'temp': 286.81, u'temp_min': 284.82}</msg>
+<status status="PASS" endtime="20190609 22:17:03.558" starttime="20190609 22:17:03.557"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.560" level="INFO">${humidity} = 71</msg>
+<status status="PASS" endtime="20190609 22:17:03.560" starttime="20190609 22:17:03.559"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.561" level="INFO">${pressure} = 1016</msg>
+<status status="PASS" endtime="20190609 22:17:03.562" starttime="20190609 22:17:03.561"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.563" level="INFO">${pressure} = 762.064804086</msg>
+<status status="PASS" endtime="20190609 22:17:03.563" starttime="20190609 22:17:03.562"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.565" starttime="20190609 22:17:03.564"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.565" starttime="20190609 22:17:03.501"></status>
+</kw>
+<kw type="foritem" name="${city} = Potsdam">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.615" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Potsdam&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.616" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.616" starttime="20190609 22:17:03.565"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.618" level="INFO">${main} = {u'pressure': 1021, u'temp_min': 293.71, u'temp_max': 297.04, u'temp': 295.57, u'humidity': 38}</msg>
+<status status="PASS" endtime="20190609 22:17:03.618" starttime="20190609 22:17:03.616"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.619" level="INFO">${dict} = {u'pressure': 1021, u'humidity': 38, u'temp_max': 297.04, u'temp': 295.57, u'temp_min': 293.71}</msg>
+<status status="PASS" endtime="20190609 22:17:03.619" starttime="20190609 22:17:03.618"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.621" level="INFO">${humidity} = 38</msg>
+<status status="PASS" endtime="20190609 22:17:03.621" starttime="20190609 22:17:03.620"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.622" level="INFO">${pressure} = 1021</msg>
+<status status="PASS" endtime="20190609 22:17:03.622" starttime="20190609 22:17:03.621"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.624" level="INFO">${pressure} = 765.815123004</msg>
+<status status="PASS" endtime="20190609 22:17:03.624" starttime="20190609 22:17:03.623"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.625" starttime="20190609 22:17:03.624"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.625" starttime="20190609 22:17:03.565"></status>
+</kw>
+<kw type="foritem" name="${city} = Sydney">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.678" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Sydney&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.678" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.679" starttime="20190609 22:17:03.626"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.681" level="INFO">${main} = {u'pressure': 1020, u'temp_min': 280.93, u'temp_max': 286.48, u'temp': 284.15, u'humidity': 82}</msg>
+<status status="PASS" endtime="20190609 22:17:03.681" starttime="20190609 22:17:03.679"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.683" level="INFO">${dict} = {u'pressure': 1020, u'humidity': 82, u'temp_max': 286.48, u'temp': 284.15, u'temp_min': 280.93}</msg>
+<status status="PASS" endtime="20190609 22:17:03.683" starttime="20190609 22:17:03.681"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.684" level="INFO">${humidity} = 82</msg>
+<status status="PASS" endtime="20190609 22:17:03.684" starttime="20190609 22:17:03.683"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.685" level="INFO">${pressure} = 1020</msg>
+<status status="PASS" endtime="20190609 22:17:03.685" starttime="20190609 22:17:03.684"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.687" level="INFO">${pressure} = 765.06505922</msg>
+<status status="PASS" endtime="20190609 22:17:03.687" starttime="20190609 22:17:03.686"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.688" starttime="20190609 22:17:03.687"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.688" starttime="20190609 22:17:03.626"></status>
+</kw>
+<kw type="foritem" name="${city} = Kugaaruk">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.744" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Kugaaruk&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.744" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.744" starttime="20190609 22:17:03.689"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.745" level="INFO">${main} = {u'pressure': 1016, u'temp_min': 277.15, u'temp_max': 277.15, u'temp': 277.15, u'humidity': 80}</msg>
+<status status="PASS" endtime="20190609 22:17:03.745" starttime="20190609 22:17:03.745"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.746" level="INFO">${dict} = {u'pressure': 1016, u'humidity': 80, u'temp_max': 277.15, u'temp': 277.15, u'temp_min': 277.15}</msg>
+<status status="PASS" endtime="20190609 22:17:03.747" starttime="20190609 22:17:03.746"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.748" level="INFO">${humidity} = 80</msg>
+<status status="PASS" endtime="20190609 22:17:03.748" starttime="20190609 22:17:03.747"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.749" level="INFO">${pressure} = 1016</msg>
+<status status="PASS" endtime="20190609 22:17:03.749" starttime="20190609 22:17:03.748"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.751" level="INFO">${pressure} = 762.064804086</msg>
+<status status="PASS" endtime="20190609 22:17:03.751" starttime="20190609 22:17:03.749"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.752" starttime="20190609 22:17:03.751"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.752" starttime="20190609 22:17:03.689"></status>
+</kw>
+<kw type="foritem" name="${city} = Plymouth">
+<kw name="Get Request" library="RequestsLibrary">
+<doc>Send a GET request on the session object found using the
+given `alias`</doc>
+<arguments>
+<arg>Get_Weather</arg>
+<arg>data/2.5/weather?q=${city}&amp;appid=${APP_ID}</arg>
+</arguments>
+<assign>
+<var>${response}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.804" level="INFO">Get Request using : alias=Get_Weather, uri=data/2.5/weather?q=Plymouth&amp;appid=ea574594b9d36ab688642d5fbeab847e, headers=None json=None</msg>
+<msg timestamp="20190609 22:17:03.805" level="INFO">${response} = &lt;Response [200]&gt;</msg>
+<status status="PASS" endtime="20190609 22:17:03.805" starttime="20190609 22:17:03.753"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${response.json()}</arg>
+<arg>main</arg>
+</arguments>
+<assign>
+<var>${main}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.807" level="INFO">${main} = {u'pressure': 1020, u'temp_min': 285.93, u'temp_max': 288.71, u'temp': 287.06, u'humidity': 71}</msg>
+<status status="PASS" endtime="20190609 22:17:03.807" starttime="20190609 22:17:03.805"></status>
+</kw>
+<kw name="Convert To Dictionary" library="Collections">
+<doc>Converts the given ``item`` to a Python ``dict`` type.</doc>
+<arguments>
+<arg>${main}</arg>
+</arguments>
+<assign>
+<var>${dict}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.809" level="INFO">${dict} = {u'pressure': 1020, u'humidity': 71, u'temp_max': 288.71, u'temp': 287.06, u'temp_min': 285.93}</msg>
+<status status="PASS" endtime="20190609 22:17:03.809" starttime="20190609 22:17:03.807"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>humidity</arg>
+</arguments>
+<assign>
+<var>${humidity}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.810" level="INFO">${humidity} = 71</msg>
+<status status="PASS" endtime="20190609 22:17:03.810" starttime="20190609 22:17:03.809"></status>
+</kw>
+<kw name="Get From Dictionary" library="Collections">
+<doc>Returns a value from the given ``dictionary`` based on the given ``key``.</doc>
+<arguments>
+<arg>${dict}</arg>
+<arg>pressure</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.812" level="INFO">${pressure} = 1020</msg>
+<status status="PASS" endtime="20190609 22:17:03.812" starttime="20190609 22:17:03.811"></status>
+</kw>
+<kw name="Evaluate" library="BuiltIn">
+<doc>Evaluates the given expression in Python and returns the results.</doc>
+<arguments>
+<arg>${pressure}*100/133.321995</arg>
+</arguments>
+<assign>
+<var>${pressure}</var>
+</assign>
+<msg timestamp="20190609 22:17:03.814" level="INFO">${pressure} = 765.06505922</msg>
+<status status="PASS" endtime="20190609 22:17:03.814" starttime="20190609 22:17:03.812"></status>
+</kw>
+<kw name="Pass Execution If" library="BuiltIn">
+<doc>Conditionally skips rest of the current test, setup, or teardown with PASS status.</doc>
+<arguments>
+<arg>(${humidity}&gt;75) &amp; (${pressure}&gt;770)</arg>
+<arg>City - ${city}. Humidity - ${humidity}, pressure - ${pressure}.</arg>
+</arguments>
+<status status="PASS" endtime="20190609 22:17:03.815" starttime="20190609 22:17:03.814"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.815" starttime="20190609 22:17:03.752"></status>
+</kw>
+<status status="PASS" endtime="20190609 22:17:03.816" starttime="20190609 22:17:02.907"></status>
+</kw>
+<kw name="Fail" library="BuiltIn">
+<doc>Fails the test with the given message and optionally alters its tags.</doc>
+<arguments>
+<arg>"There are NO cities that meet the requirements"</arg>
+</arguments>
+<msg timestamp="20190609 22:17:03.817" level="FAIL">"There are NO cities that meet the requirements"</msg>
+<status status="FAIL" endtime="20190609 22:17:03.818" starttime="20190609 22:17:03.816"></status>
+</kw>
+<timeout value="2 minutes"></timeout>
+<status status="FAIL" endtime="20190609 22:17:03.818" critical="yes" starttime="20190609 22:17:02.906">"There are NO cities that meet the requirements"</status>
+</test>
+<doc>Humidity is above 75% and pressure above 770 mm Hg</doc>
+<status status="FAIL" endtime="20190609 22:17:03.819" starttime="20190609 22:17:02.899"></status>
+</suite>
+<kw type="teardown" name="Delete All Sessions" library="RequestsLibrary">
+<doc>Removes all the session objects</doc>
+<msg timestamp="20190609 22:17:03.822" level="INFO">Delete All Sessions</msg>
+<status status="PASS" endtime="20190609 22:17:03.822" starttime="20190609 22:17:03.822"></status>
+</kw>
+<doc>Current Weather Data API Testcases</doc>
+<status status="FAIL" endtime="20190609 22:17:03.823" starttime="20190609 22:17:00.720"></status>
 </suite>
 <statistics>
 <total>
-<stat fail="1" pass="0">Critical Tests</stat>
-<stat fail="1" pass="0">All Tests</stat>
+<stat fail="2" pass="3">Critical Tests</stat>
+<stat fail="2" pass="3">All Tests</stat>
 </total>
 <tag>
 </tag>
 <suite>
-<stat fail="1" id="s1" name="Daily Forecast" pass="0">Daily Forecast</stat>
+<stat fail="2" id="s1" name="Current Weather" pass="3">Current Weather</stat>
+<stat fail="0" id="s1-s1" name="TC 01 Temperature check" pass="1">Current Weather.TC 01 Temperature check</stat>
+<stat fail="0" id="s1-s2" name="TC 02 Day Length check" pass="1">Current Weather.TC 02 Day Length check</stat>
+<stat fail="0" id="s1-s3" name="TC 03 Good Conditions check" pass="1">Current Weather.TC 03 Good Conditions check</stat>
+<stat fail="1" id="s1-s4" name="TC 04 Snow check" pass="0">Current Weather.TC 04 Snow check</stat>
+<stat fail="1" id="s1-s5" name="TC 05 Humidity and Pressure check" pass="0">Current Weather.TC 05 Humidity and Pressure check</stat>
 </suite>
 </statistics>
 <errors>
